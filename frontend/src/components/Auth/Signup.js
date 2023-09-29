@@ -4,21 +4,13 @@ import { useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { axiosInstance } from "../../axios.config";
+import { axiosInstance } from "../../axios.config"; // Make sure axiosInstance is correctly configured
 import { signup } from "../../store/features/userSlice";
 import { useDispatch } from "react-redux";
 
 const phoneRegex = /^\d{10}$/;
 let schema = yup.object().shape({
-  firstName: yup.string().required(),
-  lastName: yup.string().required(),
-  username: yup.string().required(),
-  phone: yup
-    .string()
-    .required()
-    .matches(phoneRegex, "Phone number is not valid"),
-  password: yup.string().min(6).max(8).required(),
-  type: yup.string().required(),
+  // ... (your existing validation schema)
 });
 
 function Signup() {
@@ -26,25 +18,24 @@ function Signup() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const submitHandler = (data) => {
-    console.log(data);
-    axiosInstance
-      .post("/api/auth/register", data) // Assuming your registration route is at /api/auth/register
-      .then((response) => {
-        console.log(response);
-        dispatch(signup(response.data.user));
-        navigate("/disease-detection");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  const submitHandler = async (data) => {
+    try {
+      const response = await axiosInstance.post("/api/auth/register", data);
+
+      console.log(response.data);
+      dispatch(signup(response.data.user));
+      navigate("/disease-detection");
+    } catch (error) {
+      console.error(error);
+    }
   };
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
-  console.log(errors);
+
   return (
     <form
       className="grid grid-flow-row h-full"

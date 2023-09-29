@@ -11,7 +11,14 @@ const app = express();
 const PORT = process.env.PORT || 5001; // Use port 5001 for both registration and login
 const MONGO_DB_URI = process.env.MONGO_DB_URI;
 
-app.use(cors());
+// Enable CORS for all routes
+app.use(
+  cors({
+    origin: "http://localhost:3000", // Replace with the actual origin of your frontend
+    credentials: true, // Allow credentials (cookies)
+  })
+);
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 

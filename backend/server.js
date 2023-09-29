@@ -8,7 +8,7 @@ const bcrypt = require("bcrypt");
 const User = require("./models/users"); // Import the User model
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001; // Use port 5001 for both registration and login
 const MONGO_DB_URI = process.env.MONGO_DB_URI;
 
 app.use(cors());
@@ -31,6 +31,7 @@ app.get("/", (req, res) => {
   res.send("Welcome to your Node.js backend!");
 });
 
+// Registration Route
 app.post("/api/auth/register", async (req, res) => {
   try {
     const { firstName, lastName, username, phone, password, type } = req.body;
@@ -58,6 +59,22 @@ app.post("/api/auth/register", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+// Login Route
+app.post("/api/auth/login", async (req, res) => {
+  try {
+    const { username, password } = req.body;
+    const user = await User.findOne({ username });
+
+    if (user && (await bcrypt.compare(password, user.password))) {
+      res.json({ message: "Login successful", user });
+    } else {
+      res.status(401).json({ error: "Invalid credentials" });
+    }
+  } catch (error) {
+    res.status(400).json({ error: "Error during login" });
   }
 });
 

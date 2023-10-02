@@ -43,13 +43,13 @@ const defaultMaps = [
 
 const defaultPlants = {
   legends: [
-    "Corn_(maize)",
+    "Corn",
     "Tomato",
     "Potato",
-    "Grape",
-    "Pepper bell",
+    "Carrot",
+    "Bell peper",
     "Strawberry",
-    "Apple",
+    "Pairs",
   ],
   data: [2, 5, 4, 1, 7, 1, 4],
 };
@@ -123,7 +123,7 @@ function Dashboard() {
         <div className="flex flex-col p-4 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-400 text-white shadow-xl shadow-slate-300">
           <p className="text-center flex justify-center">
             <span className="text-5xl font-bold font-mono my-auto">
-              <GiCorn className="inline" /> Corn
+              <GiCorn className="inline" /> Carrot
             </span>
           </p>
           <p className="text-center">
@@ -167,9 +167,9 @@ function Dashboard() {
             <h1 className="text-center p-6">Disease Detection by Day</h1>
             <ApexChart2 />
           </div>
-          <div className=" rounded-xl shadow-xl shadow-slate-300 row-span-2 col-span-4 ">
-            <h1 className="text-center p-6">Disease per State</h1>
-          </div>
+          {/* <div className=" rounded-xl shadow-xl shadow-slate-300 row-span-2 col-span-4 ">
+            <h1 className="text-center p-6">Disease per province </h1>
+          </div> */}
         </div>
       </div>
     </div>

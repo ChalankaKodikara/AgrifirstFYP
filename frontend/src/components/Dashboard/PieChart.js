@@ -11,11 +11,11 @@ class PieChart extends React.Component {
         labels: [
           "Corn",
           "Tomato",
-          "Potato",
-          "Carrot",
-          "Bell peper",
-          "Strawberry",
-          "Pairs",
+          "Potatoes",
+          "Cabbage",
+          "Pumpking",
+          "Tumip",
+          "Sweet potatoes",
         ],
         plotOptions: {
           pie: {

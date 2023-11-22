@@ -36,37 +36,26 @@ class ApexBarChart extends React.Component {
         this.state = {
             series: [
                 {
-                    name: 'Black rot',
+                    name: 'Fungal Diseases',
                     data: [44, 55, 41, 37, 22, 43, 21]
                 }, {
-                    name: 'scab',
+                    name: 'Bacterial Diseases',
                     data: [53, 32, 33, 52, 13, 43, 32]
                 }, {
-                    name: 'Early blight',
+                    name: 'Viral Diseases',
                     data: [12, 17, 11, 9, 15, 11, 20]
                 }, {
-                    name: 'Septoria leaf spot',
+                    name: 'Nematode Infestations',
                     data: [9, 7, 5, 8, 6, 9, 4]
                 }, {
-                    name: 'Target Spot',
+                    name: 'Mycoplasma Diseases',
                     data: [25, 12, 19, 32, 25, 24, 10]
                 },
                 {
-                    name: 'Common rust',
+                    name: 'Rice Diseases',
                     data: [25, 12, 19, 32, 25, 24, 10]
                 },
-                {
-                    name: 'Leaf scorch',
-                    data: [25, 12, 19, 32, 25, 24, 10]
-                },
-                {
-                    name: 'Bacterial spot',
-                    data: [25, 12, 19, 32, 25, 24, 10]
-                },
-                {
-                    name: 'Healthy Plant',
-                    data: [150, 171, 163, 121, 98, 101, 140]
-                }
+                
             ],
             options: {
                 colors: ['#020969','#09316C','#10596F','#188273','#1FAA76','#26D279','#2DFA7C'],
@@ -91,7 +80,7 @@ class ApexBarChart extends React.Component {
                     colors: ['#000']
                 },
                 xaxis: {
-                    categories: ["Apple", "Potato", "Grape", "Tomato", "Corn", "Strawberry", "Pepper_bell"],
+                    categories: ["Cabbage", "Potato", "Sweet potatoes", "Tomato", "Corn", "Garlic", "Green beans"],
                     labels: {
                         formatter: function (val) {
                             return val

@@ -14,7 +14,7 @@ const MONGO_DB_URI = process.env.MONGO_DB_URI;
 // Enable CORS for all routes
 app.use(
   cors({
-    origin: "http://localhost:3000", // Replace with the actual origin of your frontend
+    origin: "http://localhost:3001", // Replace with the actual origin of your frontend
     credentials: true, // Allow credentials (cookies)
   })
 );

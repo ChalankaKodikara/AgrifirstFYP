@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { MdKeyboardArrowRight, MdArrowForward } from "react-icons/md";
 import { useTranslation, Trans } from "react-i18next";
+import Navbar from "../Navbar/Navbar";
 
 const Home = () => {
   const [hover, setHover] = useState(false);
@@ -22,6 +23,9 @@ const Home = () => {
 
   return (
     <>
+    <div>
+    <div><Navbar /></div>
+
       <div className="flex-row h-fit">
         <div className="col-span-12 h-fit">
           <div className="col-span-12 flex flex-row relative">
@@ -88,6 +92,7 @@ const Home = () => {
         <div className="col-span-12 h-fit">
           <InfoSection {...homeObjThree} />
         </div>
+      </div>
       </div>
     </>
   );

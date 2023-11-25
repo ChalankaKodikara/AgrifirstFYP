@@ -9,9 +9,9 @@ import Dashboard from "./components/Dashboard/Dashboard";
 import Navbar from "./components/Navbar/Navbar";
 import Auth from "./components/Auth/Auth";
 import Footer from "./components/Footer/Footer";
-import DiseaseDetection from "./components/DiseaseDetection/DiseaseDetection";
+import Profile from "./components/DiseaseDetection/Profile";
 import Teleconsulting from "./components/Teleconsulting/Teleconsulting";
-import Forum from "./components/Forum/Forum";
+import Forum from "./components/DiseaseDetection/Forum";
 // import GoogleTranslate from "./components/GoogleTranslate";
 import LoadingBar from "react-top-loading-bar";
 import "./components/i18n/i18n";
@@ -43,25 +43,16 @@ function App() {
   // };
   return (
     <div className="min-h-screen flex flex-col">
-      {/* <GoogleTranslate/> */}
       <LoadingBar color="#22E089" ref={ref} height="3px" />
-      <Navbar />
-      {/*Object.keys(lngs).map((lng) => (
-        <button key={lng} style={{ fontWeight: i18n.resolvedLanguage === lng ? 'bold' : 'normal' }} type="submit" onClick={() => i18n.changeLanguage(lng)}>
-          {lngs[lng].nativeName}
-        </button>
-      ))*/}
+      
+ 
       <div className="flex flex-grow">
         <div className="col p-0 m-0 w-full">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/auth" element={<Auth />} />
-            {user ? (
-              <Route path="/disease-detection" element={<DiseaseDetection />} />
-            ) : (
-              <></>
-            )}
+            {user ? <Route path="/forum" element={<Forum />} /> : <></>}
             <Route path="/teleconsulting" element={<Teleconsulting />} />
             <Route path="/forum" element={<Forum />} />
           </Routes>

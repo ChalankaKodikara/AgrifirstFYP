@@ -1,0 +1,14 @@
+.formreg-container {
+    display: flex;
+justify-content: center;  }
+  
+  .left-form {
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  
+  .right-form {
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  

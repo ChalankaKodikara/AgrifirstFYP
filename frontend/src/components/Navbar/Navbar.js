@@ -24,11 +24,7 @@ export default function Navbar() {
   const navigation = [
     { name: t("description.nav.0"), href: "/", current: true },
     { name: t("description.nav.1"), href: "/dashboard", current: false },
-    {
-      name: t("description.nav.2"),
-      href: "/disease-detection",
-      current: false,
-    },
+    
     { name: t("description.nav.3"), href: "/teleconsulting", current: false },
   ];
   const handleLogout = async () => {

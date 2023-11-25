@@ -14,7 +14,6 @@ import Teleconsulting from "./components/Teleconsulting/Teleconsulting";
 import Forum from "./components/Forum/Forum";
 // import GoogleTranslate from "./components/GoogleTranslate";
 import LoadingBar from "react-top-loading-bar";
-import { useTranslation, Trans } from "react-i18next";
 import "./components/i18n/i18n";
 
 function App() {

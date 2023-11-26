@@ -3,7 +3,6 @@ import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import { Link, NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { logout } from "../../store/features/userSlice";
 import { axiosInstance } from "../../axios.config";
 import { useNavigate } from "react-router-dom";
 import LanguageSelector from "../LangaugeSelector";
@@ -31,7 +30,6 @@ export default function Navbar() {
     await axiosInstance
       .get("/auth/logout")
       .then((response) => {
-        dispatch(logout());
       })
       .catch((error) => {
         console.log(error.response);

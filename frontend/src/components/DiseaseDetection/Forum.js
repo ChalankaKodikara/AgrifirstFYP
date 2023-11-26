@@ -1,13 +1,15 @@
-import React from 'react'
-import './Profile.css'
-import Navbar from '../Navbar/Navbar'
+import React from "react";
+import "./Profile.css";
+import Navbar from "../Navbar/Navbar";
+import UserProfile from "../profile/UserProfile";
 
 const Forum = () => {
   return (
-<div>
-  <div><Navbar /></div>
-      
-      <form class="file-upload-form">
+    <div>
+      <div>
+      </div>
+
+      {/* <form class="file-upload-form">
         <label for="file" class="file-upload-label">
           <div class="file-upload-design">
             <svg viewBox="0 0 640 512" height="1em">
@@ -19,8 +21,11 @@ const Forum = () => {
           </div>
           <input id="file" type="file" />
         </label>
-      </form>
-    </div>  )
-}
+      </form> */}
 
-export default Forum
+      <UserProfile/>
+    </div>
+  );
+};
+
+export default Forum;

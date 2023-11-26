@@ -4,8 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { axiosInstance } from "../../axios.config"; // Make sure axiosInstance is correctly configured
-import { signup } from "../../store/features/userSlice";
-import { useDispatch } from "react-redux";
 import "./Loginform.css";
 
 const phoneRegex = /^\d{10}$/;
@@ -14,7 +12,6 @@ let schema = yup.object().shape({
 });
 
 function SignupForm() {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const submitHandler = async (data) => {
@@ -22,7 +19,6 @@ function SignupForm() {
       const response = await axiosInstance.post("/api/auth/register", data);
 
       console.log(response.data);
-      dispatch(signup(response.data.user));
       navigate("/forum");
     } catch (error) {
       console.error(error);

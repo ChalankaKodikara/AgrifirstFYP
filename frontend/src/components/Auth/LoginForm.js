@@ -45,8 +45,13 @@ function Login() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm(); // Add this line to import the useForm hook
+  } = useForm();
 
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleSubmit(handleLogin)();
+    }
+  };
   return (
     <div>
       

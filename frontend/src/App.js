@@ -6,10 +6,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { login } from "./store/features/userSlice";
 import Home from "./components/Home/Home";
 import Dashboard from "./components/Dashboard/Dashboard";
-import Navbar from "./components/Navbar/Navbar";
 import Auth from "./components/Auth/Auth";
 import Footer from "./components/Footer/Footer";
-import Profile from "./components/DiseaseDetection/Profile";
 import Teleconsulting from "./components/Teleconsulting/Teleconsulting";
 import Forum from "./components/DiseaseDetection/Forum";
 // import GoogleTranslate from "./components/GoogleTranslate";
@@ -35,12 +33,7 @@ function App() {
         ref.current.complete();
       });
   }, []);
-  // const { t, i18n } = useTranslation();
-  // const lngs = {
-  //   en: { nativeName: "English" },
-  //   hi: { nativeName: "Hindi" },
-  //   mr: { nativeName: "Marathi" },
-  // };
+  
   return (
     <div className="min-h-screen flex flex-col">
       <LoadingBar color="#22E089" ref={ref} height="3px" />

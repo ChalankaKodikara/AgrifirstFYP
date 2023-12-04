@@ -7,14 +7,16 @@ import tensorflow as tf
 import secrets
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)  # Enable CORS for all routes
 
 # MySQL configurations
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'root1234'
-app.config['MYSQL_DB'] = 'plant_disease_db'
+app.config['MYSQL_PASSWORD'] = 'root123'
+app.config['MYSQL_DB'] = 'newschema'
 
 mysql = MySQL(app)
 

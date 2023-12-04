@@ -18,7 +18,7 @@ const ImageUpload = () => {
     formData.append('file', file);
 
     try {
-      const response = await fetch('/predict', {
+      const response = await fetch('http://localhost:5000/predict', {
         method: 'POST',
         body: formData,
       });

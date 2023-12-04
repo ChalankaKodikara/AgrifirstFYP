@@ -1,6 +1,6 @@
 import React from "react";
 import LoginForm from "./LoginForm";
-import SignupForm from "./Signupform";
+import SignupForm from "./signupform";
 import "./Auth.css"; // Import your CSS file
 import Navbar from "../Navbar/Navbar";
 

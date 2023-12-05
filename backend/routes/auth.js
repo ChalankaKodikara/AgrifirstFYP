@@ -4,16 +4,14 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const { check, validationResult } = require('express-validator');
+const mysql = require('mysql2/promise'); // Import MySQL library
 const config = require('../config');
+
+const dbConfig = config.mysql; // Use 'mysql' directly since your configuration is under 'mysql'
 
 // User registration validation
 const registrationValidation = [
-  check('firstName').notEmpty().withMessage('First Name is required'),
-  check('lastName').notEmpty().withMessage('Last Name is required'),
-  check('username').notEmpty().withMessage('Username is required'),
-  check('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters'),
-  check('phone').matches(/^\d{10}$/).withMessage('Invalid phone number'),
-  check('type').notEmpty().withMessage('User type is required'),
+  // Validation rules...
 ];
 
 // User registration route
@@ -27,24 +25,28 @@ router.post("/register", registrationValidation, async (req, res) => {
 
     const { firstName, lastName, username, phone, password, type } = req.body;
 
-    // For simplicity, let's assume there's a users array to store registered users
-    // In a real application, you'd use a database for this
-
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Save the user to the users array (this is a simplistic example)
-    const newUser = {
-      firstName,
-      lastName,
-      username,
-      phone,
-      password: hashedPassword,
-      type,
-    };
+    // Create a MySQL connection
+    const connection = await mysql.createConnection({
+      host: dbConfig.host,
+      user: dbConfig.user,
+      password: dbConfig.password,
+      database: dbConfig.database,
+    });
 
-    // Respond with the user (this is a simplistic example)
-    res.status(201).json({ user: newUser, message: "Registration successful" });
+    try {
+        const [result] = await connection.execute(
+            'INSERT INTO users (firstName, lastName, username, phone, password, type) VALUES (?, ?, ?, ?, ?, ?)',
+            [firstName, lastName, username, phone, hashedPassword.substring(0, 60), type]
+          );
+      // Respond with the user and a success message
+      res.status(201).json({ user: { id: result.insertId, firstName, lastName, username, phone, type }, message: "Registration successful" });
+    } finally {
+      // Close the connection
+      await connection.end();
+    }
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal server error" });

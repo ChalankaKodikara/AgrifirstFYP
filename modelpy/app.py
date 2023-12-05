@@ -16,9 +16,11 @@ CORS(app)  # Enable CORS for all routes
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = 'root123'
-app.config['MYSQL_DB'] = 'newschema'
+app.config['MYSQL_DB'] = 'plant_disease_db'
 
 mysql = MySQL(app)
+
+CORS(app, origins="http://localhost:3000", allow_headers=["Content-Type", "Authorization"])
 
 # Load your Keras model
 model = tf.keras.models.load_model('model/efficientnetv2s_PLANT_DISEASE_new_new.h5')

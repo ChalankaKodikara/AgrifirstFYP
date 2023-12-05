@@ -1,76 +1,54 @@
-const express = require("express");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const User = require("../models/user");
-const verifyToken = require("../middleware/verifyToken"); 
+// routes/auth.js
 
-// Use process.env.JWT_SECRET to access the secret key
+const express = require('express');
 const router = express.Router();
+const bcrypt = require('bcrypt');
+const { check, validationResult } = require('express-validator');
+const config = require('../config');
 
-// User registration
-router.post("/register", async (req, res) => {
+// User registration validation
+const registrationValidation = [
+  check('firstName').notEmpty().withMessage('First Name is required'),
+  check('lastName').notEmpty().withMessage('Last Name is required'),
+  check('username').notEmpty().withMessage('Username is required'),
+  check('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters'),
+  check('phone').matches(/^\d{10}$/).withMessage('Invalid phone number'),
+  check('type').notEmpty().withMessage('User type is required'),
+];
+
+// User registration route
+router.post("/register", registrationValidation, async (req, res) => {
   try {
+    // Validate the request
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
     const { firstName, lastName, username, phone, password, type } = req.body;
 
-    // Check if the username already exists
-    const existingUser = await User.findOne({ username });
-
-    if (existingUser) {
-      return res.status(400).json({ error: "Username already exists" });
-    }
+    // For simplicity, let's assume there's a users array to store registered users
+    // In a real application, you'd use a database for this
 
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create a new user
-    const newUser = new User({
+    // Save the user to the users array (this is a simplistic example)
+    const newUser = {
       firstName,
       lastName,
       username,
       phone,
       password: hashedPassword,
       type,
-    });
+    };
 
-    await newUser.save();
-
-    res.status(201).json({ message: "Registration successful" });
+    // Respond with the user (this is a simplistic example)
+    res.status(201).json({ user: newUser, message: "Registration successful" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal server error" });
   }
-});
-
-// Use process.env.JWT_SECRET to access the secret key
-router.post("/login", async (req, res) => {
-  try {
-    const { username, password } = req.body;
-    const user = await User.findOne({ username });
-
-    if (!user) {
-      return res.status(401).json({ error: "Invalid credentials" });
-    }
-
-    const passwordMatch = await bcrypt.compare(password, user.password);
-
-    if (!passwordMatch) {
-      return res.status(401).json({ error: "Invalid credentials" });
-    }
-
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "7d",
-    });
-
-    res.json({ message: "Login successful", token, username });
-  } catch (error) {
-    console.error("Login error:", error);
-    res.status(500).json({ error: "Internal server error" });
-  }
-});
-
-// API to get the logged-in user's username
-router.get("/logged-username", verifyToken, (req, res) => {
-  res.json({ username: req.user.username });
 });
 
 module.exports = router;

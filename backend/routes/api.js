@@ -1,12 +1,12 @@
-const express = require("express");
+// api.js
+
+const express = require('express');
 const router = express.Router();
 
-// Import route handlers/controllers
-const authRoutes = require("./auth");
+// Define your routes here
+router.get('/', (req, res) => {
+  res.send('Hello, API!');
+});
 
-// Define your API routes here
-router.use("/auth", authRoutes);
-
-// Additional routes can be defined here
-
+// Export the router
 module.exports = router;

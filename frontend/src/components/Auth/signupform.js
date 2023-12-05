@@ -16,9 +16,13 @@ function SignupForm() {
 
   const submitHandler = async (data) => {
     try {
-      const response = await axiosInstance.post("/api/auth/register", data);
+      const response = await axiosInstance.post("http://localhost:5001/api/auth/register", data);
+      const { token } = response.data;
 
-      console.log(response.data);
+      // Store the token securely (e.g., in localStorage or a secure cookie)
+      localStorage.setItem("token", token);
+
+      // Redirect to the forum or any other authenticated route
       navigate("/forum");
     } catch (error) {
       console.error(error);

@@ -1,5 +1,3 @@
-// server.js
-
 const express = require("express");
 const cors = require("cors");
 const apiRoutes = require("./routes/auth");
@@ -24,4 +22,6 @@ app.use("/api/auth", apiRoutes);
 const PORT = process.env.PORT || config.server.port;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
+  console.log(`Connected to the server`);
+
 });

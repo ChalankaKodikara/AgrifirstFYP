@@ -1,0 +1,158 @@
+.formpage {
+  display: flex;
+  justify-content: center;
+  padding-top: 15px;
+}
+.form {
+  background-color: #fff;
+  box-shadow: 0 10px 60px rgb(218, 229, 255);
+  border: 1px solid rgb(159, 159, 160);
+  border-radius: 20px;
+  padding: 2rem 0.7rem 0.7rem 0.7rem;
+  text-align: center;
+  font-size: 1.125rem;
+  width: 500px;
+}
+
+.form-title {
+  color: #000000;
+  font-size: 1.8rem;
+  font-weight: 500;
+}
+
+.form-paragraph {
+  margin-top: 10px;
+  font-size: 0.9375rem;
+  color: rgb(105, 105, 105);
+}
+
+.drop-container {
+  background-color: #fff;
+  position: relative;
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  margin-top: 2.1875rem;
+  border-radius: 10px;
+  border: 2px dashed rgb(171, 202, 255);
+  color: #444;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out, border 0.2s ease-in-out;
+}
+
+.drop-container:hover {
+  background: rgba(0, 140, 255, 0.164);
+  border-color: rgba(17, 17, 17, 0.616);
+}
+
+.drop-container:hover .drop-title {
+  color: #222;
+}
+
+.drop-title {
+  color: #444;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  transition: color 0.2s ease-in-out;
+}
+
+.uploadbtn {
+  border: none;
+  outline: none;
+  display: inline-block;
+  border-radius: 0.25rem;
+  background-color: rgb(0, 206, 93);
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  text-align: center;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: rgb(255, 255, 255);
+  font-family: "Montserrat", sans-serif;
+}
+
+.file-input {
+  width: 400px;
+  max-width: 100%;
+  color: #444;
+  padding: 2px;
+  background: #fff;
+  border-radius: 10px;
+  border: 1px solid rgba(8, 8, 8, 0.288);
+  font-family: "Montserrat", sans-serif;
+}
+
+#file-input::file-selector-button {
+  margin-right: 20px;
+  border: none;
+  background: rgb(0, 206, 93);
+  padding: 10px 20px;
+  border-radius: 10px;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+}
+
+#file-input::file-selector-button:hover {
+  background: rgb(0, 206, 93);
+}
+
+button {
+  font-family: "Montserrat", sans-serif;
+}
+
+.heroSection {
+  height: 50vh;
+  max-width: 100%;
+  background: url("./designbg2.png") center;
+  background-size: cover;
+}
+
+header .logo {
+  float: left;
+}
+
+.heroText {
+  text-align: center;
+  color: #fff;
+}
+
+.heroText h1 {
+  font-size: 3em;
+  margin: 0;
+}
+
+.heroText button {
+  color: #fff;
+  background: transparent;
+  border: solid 2px #fff;
+  padding: 10px 30px;
+  border-radius: 30px;
+  margin: 5px;
+  font-weight: bold;
+  display: inline-block;
+}
+
+.heroText button:hover {
+  cursor: pointer;
+  background: #fff;
+  border: solid 2px #fff;
+  color: #333;
+}
+
+button.joinNow {
+  background: rgb(0, 206, 93);
+  border: solid 2px rgb(0, 206, 93);
+}
+
+button.joinNow:hover {
+  color: #fff;
+  background: rgb(1, 168, 76);
+  border: solid 2px rgb(1, 168, 76);
+}

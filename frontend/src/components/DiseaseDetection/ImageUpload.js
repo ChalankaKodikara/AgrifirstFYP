@@ -39,15 +39,26 @@ const ImageUpload = () => {
         <div class="heroText"></div>
       </div>
       <div className="formpage">
-        <form class="formu">
-          <span class="formu-title">Upload your file</span>
-          <p class="formu-paragraph">File should be an image</p>
-          <label for="file-input" class="dropu-container">
-            <span class="drop-title">Drop files here</span>
-            or
-            <input type="file" onChange={handleFileChange} />
-          </label>
-        </form>{" "}
+        <div className="formpage">
+          <br />
+          <form class="formu">
+            <span class="form-title">Upload your file</span>
+            <p class="form-paragraph">File should be an image</p>
+            <label for="file-input" class="drop-container">
+              <span class="drop-title">Drop files here</span>
+              or
+              <input
+                className="file-input"
+                type="file"
+                accept="image/*"
+                required=""
+                id="file-input"
+                onChange={handleFileChange}
+              />
+            </label>
+            
+          </form>
+        </div>
       </div>
       <div className="buttonpr">
         <button className="uploadbtn" id="file-input" onClick={handleUpload}>
@@ -75,7 +86,6 @@ const ImageUpload = () => {
               </div>
               <div class="success-prompt-wrap">
                 <p class="success-prompt-heading">
-                  {" "}
                   {prediction && <h2>Prediction: {prediction}</h2>}
                 </p>
                 <div class="success-prompt-prompt">

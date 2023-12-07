@@ -7,7 +7,6 @@ const ImageUpload = () => {
   const [prediction, setPrediction] = useState(null);
   const [treatment, setTreatment] = useState(null);
   const [pdfPath, setPdfPath] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -16,8 +15,6 @@ const ImageUpload = () => {
 
   const handleUpload = async () => {
     if (!file) return;
-
-    setIsLoading(true); // Set loading to true before making the request
 
     const formData = new FormData();
     formData.append("file", file);
@@ -33,8 +30,6 @@ const ImageUpload = () => {
       setPdfPath(data.pdf_path);
     } catch (error) {
       console.error("Error:", error);
-    } finally {
-      setIsLoading(false); // Set loading to false after the request is complete
     }
   };
 
@@ -44,28 +39,21 @@ const ImageUpload = () => {
         <div class="heroText"></div>
       </div>
       <div className="formpage">
-        <br />
-        <form class="form">
-          <span class="form-title">Upload your file</span>
-          <p class="form-paragraph">File should be an image</p>
-          <label for="file-input" class="drop-container">
+        <form class="formu">
+          <span class="formu-title">Upload your file</span>
+          <p class="formu-paragraph">File should be an image</p>
+          <label for="file-input" class="dropu-container">
             <span class="drop-title">Drop files here</span>
             or
-            <input
-              className="file-input"
-              type="file"
-              accept="image/*"
-              required=""
-              id="file-input"
-              onChange={handleFileChange}
-            />
+            <input type="file" onChange={handleFileChange} />
           </label>
-          <button className="uploadbtn" id="file-input" onClick={handleUpload}>
-            Upload
-          </button>
-        </form>
+        </form>{" "}
       </div>
-      {isLoading && <Loader />} {/* Render loader when loading is true */}
+      <div className="buttonpr">
+        <button className="uploadbtn" id="file-input" onClick={handleUpload}>
+          Upload
+        </button>
+      </div>
       <div className="prediction ">
         <div class="notifications-container">
           <div class="success">
@@ -97,17 +85,8 @@ const ImageUpload = () => {
             </div>
           </div>
         </div>
-      </div>
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
+      </div>{" "}
     </div>
   );
 };
-
 export default ImageUpload;

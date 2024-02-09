@@ -6,9 +6,11 @@ const bcrypt = require('bcrypt');
 const { check, validationResult } = require('express-validator');
 const mysql = require('mysql2/promise'); // Import MySQL library
 const config = require('../config');
+const jwt = require('jsonwebtoken');
 
 const dbConfig = config.mysql; // Use 'mysql' directly since your configuration is under 'mysql'
-
+// Generate a strong secret key
+const SECRET_KEY = process.env.JWT_SECRET || 'your_secret_key';
 // User registration validation
 const registrationValidation = [
   // Validation rules...
@@ -57,8 +59,6 @@ router.post("/register", registrationValidation, async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
-
-// Login endpoint
 router.post("/login", async (req, res) => {
   const { username, password } = req.body;
 
@@ -67,17 +67,12 @@ router.post("/login", async (req, res) => {
     return res.status(400).json({ error: "Username and password are required" });
   }
 
-  // Create a MySQL connection
-  const connection = await mysql.createConnection({
-    host: dbConfig.host,
-    user: dbConfig.user,
-    password: dbConfig.password,
-    database: dbConfig.database,
-  });
-
   try {
+    const connection = await mysql.createConnection(dbConfig);
+
     // Query the database to get the user by username
     const [rows] = await connection.execute('SELECT * FROM users WHERE username = ?', [username]);
+    await connection.end();
 
     // Check if the username exists
     if (rows.length === 0) {
@@ -86,23 +81,24 @@ router.post("/login", async (req, res) => {
 
     const user = rows[0];
 
-    // Check if the password is correct (replace this with bcrypt comparison)
+    // Check if the password is correct
     const isPasswordValid = await bcrypt.compare(password, user.password);
-
     if (!isPasswordValid) {
       return res.status(401).json({ error: "Invalid username or password" });
     }
 
-    // If username and password are valid, create a token or session (not shown here)
+    // Generate JWT token
+    const token = jwt.sign(
+      { userId: user.id, username: user.username },
+      SECRET_KEY,
+      { expiresIn: '1h' }
+    );
 
-    // Respond with user data or token
-    res.json({ user: { id: user.id, username: user.username }, message: "Login successful" });
+    // Respond with token and user data
+    res.json({ token, user: { id: user.id, username: user.username }, message: "Login successful" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal server error" });
-  } finally {
-    // Close the connection
-    await connection.end();
   }
 });
 

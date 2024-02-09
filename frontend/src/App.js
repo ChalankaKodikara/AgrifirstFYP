@@ -7,7 +7,6 @@ import Home from './components/Home/Home';
 import Dashboard from './components/Dashboard/Dashboard';
 import Auth from './components/Auth/Auth';
 import Footer from './components/Footer/Footer';
-import Teleconsulting from './components/Teleconsulting/Teleconsulting';
 import Forum from './components/DiseaseDetection/Forum';
 import LoadingBar from 'react-top-loading-bar';
 import './components/i18n/i18n';
@@ -43,7 +42,6 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/auth" element={<Auth />} />
             {user ? <Route path="/forum" element={<Forum />} /> : <></>}
-            <Route path="/teleconsulting" element={<Teleconsulting />} />
             <Route path="/forum" element={<Forum />} />
           </Routes>
         </div>

@@ -1,7 +1,7 @@
 import React from "react";
 import LoginForm from "./LoginForm";
 import SignupForm from "./signupform";
-import "./Auth.css"; // Import your CSS file
+import "./Auth.css"; 
 import Navbar from "../Navbar/Navbar";
 
 function Auth() {

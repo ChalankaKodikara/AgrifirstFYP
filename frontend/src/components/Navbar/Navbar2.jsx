@@ -1,4 +1,4 @@
-import {Fragment } from "react";
+import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Link, NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -14,11 +14,17 @@ export default function Navbar() {
   const user = useSelector((state) => state.user.user);
   const navigate = useNavigate();
   console.log(user);
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
+  // Define your custom navigation items here
   const navigation = [
-    { name: t("description.nav.0"), href: "/", current: true },
+    { name: "Home", href: "/", current: true },
+    { name: "User Profile", href: "/profile", current: false }, // Add custom title for user profile
+    { name: "Disease Detection", href: "/disease", current: false }, // Add custom title for disease detection
+    { name: "Logout", href: "#", current: false }, // Add custom title for logout
+    { name: "Dashboard", href: "/dashboard", current: false }, // Add custom title for dashboard
   ];
+
   return (
     <Disclosure
       as="nav"
@@ -44,22 +50,25 @@ export default function Navbar() {
                 <div className="hidden sm:block sm:ml-6">
                   <div className="flex space-x-4">
                     {navigation.map((item, key) => {
-                      if (!user && key > 1) return <></>;
-                      return (
-                        <NavLink
-                          key={item.name}
-                          to={item.href}
-                          className={({ isActive }) =>
-                            `${
-                              isActive
-                                ? "text-emerald-400 border-b-2 border-emerald-400"
-                                : "text-black hover:text-gray-400"
-                            } px-3 py-2 font-medium text-md`
-                          }
-                        >
-                          {item.name}
-                        </NavLink>
-                      );
+                      // Render NavLink only if user is logged in or item is not for logged in users
+                      if (user || key === 0) {
+                        return (
+                          <NavLink
+                            key={item.name}
+                            to={item.href}
+                            className={({ isActive }) =>
+                              `${
+                                isActive
+                                  ? "text-emerald-400 border-b-2 border-emerald-400"
+                                  : "text-black hover:text-gray-400"
+                              } px-3 py-2 font-medium text-md`
+                            }
+                          >
+                            {item.name}
+                          </NavLink>
+                        );
+                      }
+                      return null; // Skip rendering for items not applicable to non-logged in users
                     })}
                   </div>
                 </div>
@@ -89,9 +98,7 @@ export default function Navbar() {
                         leave="transition ease-in duration-75"
                         leaveFrom="transform opacity-100 scale-100"
                         leaveTo="transform opacity-0 scale-95"
-                      >
-                        
-                      </Transition>
+                      ></Transition>
                     </Menu>
                   </>
                 ) : (
@@ -105,8 +112,6 @@ export default function Navbar() {
               </div>
             </div>
           </div>
-
-          
         </>
       )}
     </Disclosure>

@@ -12,6 +12,30 @@ const ImageUpload = () => {
     setFile(selectedFile);
   };
 
+  const saveResults = async (data) => {
+    try {
+      const token = localStorage.getItem("token");
+      const userId = getUserIdFromCookie();
+  
+      await fetch("http://localhost:5001/save-results", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ prediction: data.prediction, treatment: data.treatment, userId }),
+      });
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+  
+  const getUserIdFromCookie = () => {
+    const userCookie = JSON.parse(document.cookie.split('; ').find(row => row.startsWith('user=')).split('=')[1]);
+    return userCookie.id;
+  };
+  
+
   const handleUpload = async () => {
     if (!file) return;
 
@@ -27,18 +51,8 @@ const ImageUpload = () => {
       setPrediction(data.prediction);
       setTreatment(data.treatment);
 
-      // Send the results to the backend along with the logged user's ID
-      const token = localStorage.getItem("token");
-      const userId = getUserIdFromToken(token);
-
-      await fetch("http://localhost:5000/save-results", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ prediction: data.prediction, treatment: data.treatment, userId }),
-      });
+      // Save results to the backend
+      await saveResults(data);
     } catch (error) {
       console.error("Error:", error);
     }

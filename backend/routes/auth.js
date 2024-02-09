@@ -14,6 +14,18 @@ const registrationValidation = [
   // Validation rules...
 ];
 
+// Middleware to authenticate requests
+const authenticateToken = (req, res, next) => {
+  const token = req.headers.authorization?.split(" ")[1];
+  if (!token) return res.status(401).json({ error: "Unauthorized" });
+
+  jwt.verify(token, SECRET_KEY, (err, decodedToken) => {
+    if (err) return res.status(401).json({ error: "Invalid token" });
+    req.userId = decodedToken.userId;
+    next();
+  });
+};
+
 // Registration route
 router.post("/register", registrationValidation, async (req, res) => {
   try {
@@ -49,6 +61,10 @@ router.post("/register", registrationValidation, async (req, res) => {
         phone,
         type,
       };
+
+      // Set the cookie with user ID and username upon registration
+      res.cookie('user', JSON.stringify({ id: user.id, username: user.username }), { httpOnly: true });
+
       res.status(201).json({ user, message: "Registration successful" });
 
       console.log(
@@ -68,17 +84,12 @@ router.post("/login", async (req, res) => {
   const { username, password } = req.body;
 
   if (!username || !password) {
-    return res
-      .status(400)
-      .json({ error: "Username and password are required" });
+    return res.status(400).json({ error: "Username and password are required" });
   }
 
   try {
     const connection = await mysql.createConnection(dbConfig);
-    const [rows] = await connection.execute(
-      "SELECT * FROM users WHERE username = ?",
-      [username]
-    );
+    const [rows] = await connection.execute("SELECT * FROM users WHERE username = ?", [username]);
     await connection.end();
 
     if (rows.length === 0) {
@@ -98,6 +109,9 @@ router.post("/login", async (req, res) => {
       { expiresIn: "1h" }
     );
 
+    // Set the cookie with user ID and username upon login
+    res.cookie('user', JSON.stringify({ id: user.id, username: user.username }), { httpOnly: true });
+
     res.json({
       token,
       user: { id: user.id, username: user.username },
@@ -108,22 +122,28 @@ router.post("/login", async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
-
-// Save results route
-router.post("/save-results", async (req, res) => {
-  const { prediction, treatment, userId } = req.body;
+// Route to save prediction and treatment results
+router.post("/save-results", authenticateToken, async (req, res) => {
+  const { prediction, treatment } = req.body;
+  const userId = req.userId;
 
   try {
-    const connection = await mysql.createConnection(dbConfig);
-    const [result] = await connection.execute(
-      'INSERT INTO saveddata (diseases_ID, userID, diseases_name, treatments) VALUES (?, ?, ?, ?)',
-      [null, userId, prediction, treatment]
-    );
-    await connection.end();
+    // Validate input data if needed
 
-    res.status(201).json({ message: "Results saved successfully" });
+    const connection = await mysql.createConnection(dbConfig);
+
+    try {
+      const [result] = await connection.execute(
+        "INSERT INTO prediction_results (prediction, treatment, user_id) VALUES (?, ?, ?)",
+        [prediction, treatment, userId]
+      );
+
+      res.status(201).json({ message: "Results saved successfully" });
+    } finally {
+      await connection.end();
+    }
   } catch (error) {
-    console.error("Error saving results:", error);
+    console.error(error);
     res.status(500).json({ error: "Internal server error" });
   }
 });

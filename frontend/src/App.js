@@ -10,6 +10,7 @@ import Footer from './components/Footer/Footer';
 import Forum from './components/DiseaseDetection/Forum';
 import LoadingBar from 'react-top-loading-bar';
 import './components/i18n/i18n';
+import UserProfile from './components/profile/UserProfile';
 
 function App() {
   const dispatch = useDispatch();
@@ -41,8 +42,9 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/auth" element={<Auth />} />
-            {user ? <Route path="/forum" element={<Forum />} /> : <></>}
             <Route path="/forum" element={<Forum />} />
+            <Route path="/UserProfile" element={<UserProfile />} />
+
           </Routes>
         </div>
       </div>

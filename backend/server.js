@@ -4,14 +4,9 @@ const apiRoutes = require("./routes/auth");
 const config = require("./config");
 
 const app = express();
-
 // Enable CORS with specific options
-app.use(
-  cors({
-    origin: "http://localhost:3000",
-    credentials: true,
-  })
-);
+app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
+
 
 // Parse incoming requests with JSON payloads
 app.use(express.json());

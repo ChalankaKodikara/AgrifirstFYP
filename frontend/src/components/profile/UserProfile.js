@@ -1,33 +1,29 @@
 import React, { useState, useEffect } from "react";
-import './UserProfile.css'
+import "./UserProfile.css";
 
 function UserProfile() {
-    const [username, setUsername] = useState('');
+  const [username, setUsername] = useState("");
 
-    useEffect(() => {
-      // Make a request to the API endpoint
-      fetch('/api/auth/logged-username', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          // You may need to include the authentication token here
-          // e.g., 'Authorization': 'Bearer YOUR_TOKEN'
-        },
+  useEffect(() => {
+    fetch("/api/auth/logged-username", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setUsername(data.username);
       })
-        .then(response => response.json())
-        .then(data => {
-          setUsername(data.username);
-        })
-        .catch(error => {
-          console.error('Error fetching logged username:', error);
-        });
-    }, []);
+      .catch((error) => {
+        console.error("Error fetching logged username:", error);
+      });
+  }, []);
   return (
     <div>
       <div class="card">
         <div class="img"></div>
         <span>Logged-in User: {username}</span>
-        <h1></h1>
 
         <p class="info">
           I’m Walter, a multidisciplinary designer who focuses on telling my

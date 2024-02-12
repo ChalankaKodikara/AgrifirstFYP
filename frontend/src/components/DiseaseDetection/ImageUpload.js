@@ -16,7 +16,7 @@ const ImageUpload = () => {
     try {
       const token = localStorage.getItem("token");
       const userId = getUserIdFromCookie();
-  
+
       await fetch("http://localhost:5001/save-results", {
         method: "POST",
         headers: {
@@ -29,12 +29,11 @@ const ImageUpload = () => {
       console.error("Error:", error);
     }
   };
-  
+
   const getUserIdFromCookie = () => {
     const userCookie = JSON.parse(document.cookie.split('; ').find(row => row.startsWith('user=')).split('=')[1]);
     return userCookie.id;
   };
-  
 
   const handleUpload = async () => {
     if (!file) return;
@@ -46,6 +45,9 @@ const ImageUpload = () => {
       const response = await fetch("http://localhost:5000/predict", {
         method: "POST",
         body: formData,
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem("token")}`
+        }
       });
       const data = await response.json();
       setPrediction(data.prediction);
@@ -56,14 +58,6 @@ const ImageUpload = () => {
     } catch (error) {
       console.error("Error:", error);
     }
-  };
-
-  const getUserIdFromToken = (token) => {
-    if (token) {
-      const decodedToken = JSON.parse(atob(token.split('.')[1]));
-      return decodedToken.userId;
-    }
-    return null;
   };
 
   return (

@@ -128,8 +128,6 @@ router.post("/save-results", authenticateToken, async (req, res) => {
   const userId = req.userId;
 
   try {
-    // Validate input data if needed
-
     const connection = await mysql.createConnection(dbConfig);
 
     try {
@@ -147,5 +145,7 @@ router.post("/save-results", authenticateToken, async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
+
+
 
 module.exports = router;

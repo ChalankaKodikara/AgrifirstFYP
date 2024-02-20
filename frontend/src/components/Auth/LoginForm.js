@@ -14,30 +14,34 @@ function Login() {
   const navigate = useNavigate();
 
   const handleLogin = async (data) => {
-    try {
-      const response = await axios.post(
-        "http://localhost:5001/api/auth/login",
-        data
-      );
-      if (response.data.user) {
-        // User successfully logged in
-        const token = response.data.token;
+  try {
+    const response = await axios.post(
+      "http://localhost:5001/api/auth/login",
+      { ...data, userId: localStorage.getItem("userId") } // Include userId in the request payload
+    );
+    if (response.data.user) {
+      // User successfully logged in
+      const token = response.data.token;
+      const userId = response.data.user.id;
 
-        // Store the token in a cookie with an expiration time (e.g., 7 days)
-        Cookies.set("authToken", token, { expires: 7 });
+      // Store the token and user ID in local storage
+      localStorage.setItem("authToken", token);
+      localStorage.setItem("userId", userId);
 
-        console.log("Login successful:", response.data);
+      console.log("Login successful:", response.data);
 
-        // Redirect to "/forum" or your desired route
-        navigate("/forum");
-      } else {
-        // Handle login error, e.g., show error message to the user
-        console.error("Login failed:", response.data.error);
-      }
-    } catch (err) {
-      console.error("Login error:", err);
+      // Redirect to "/forum" or your desired route
+      navigate("/forum");
+    } else {
+      // Handle login error, e.g., show error message to the user
+      console.error("Login failed:", response.data.error);
     }
-  };
+  } catch (err) {
+    console.error("Login error:", err);
+  }
+};
+
+  
 
   const {
     register,

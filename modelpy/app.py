@@ -8,8 +8,6 @@ import secrets
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 from flask_cors import CORS
-from flask import Flask, request, jsonify
-from flask_mysqldb import MySQL
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
@@ -63,6 +61,10 @@ def predict_and_generate_pdf():
     if file.filename == '':
         return jsonify({'prediction': "No file selected"})
 
+    # Extract user ID from request
+    user_id = request.form.get('userId')
+    print("User ID:", user_id)
+
     # Generate a unique filename for each uploaded file
     filename = secrets.token_hex(8) + '.jpg'
     file_path = os.path.join('uploads', filename)
@@ -87,46 +89,21 @@ def predict_and_generate_pdf():
     # Generate the PDF report
     pdf_path = generate_pdf(report_headline, prediction, treatment)
 
+    # Save prediction and user ID to the database
+    cur = mysql.connection.cursor()
+    cur.execute("INSERT INTO user_predictions (user_id, prediction, treatment, file_path) VALUES (%s, %s, %s, %s)", (user_id, prediction, treatment, file_path))
+    mysql.connection.commit()
+    cur.close()
+
     return jsonify({'prediction': prediction, 'treatment': treatment, 'pdf_path': pdf_path})
 
-
-@app.route('/save-results', methods=['POST'])
-def save_results():
-    # Assuming the request contains JSON data with 'prediction' and 'treatment' fields
-    data = request.json
-    prediction = data.get('prediction')
-    treatment = data.get('treatment')
-    userID = data.get('userID')  # Use 'userID' instead of 'userId'
-    
-    print("Received prediction:", prediction)
-    print("Received treatment:", treatment)
-    print("Received user ID:", userID)
-    
-    # Insert data into the database
-    cur = mysql.connection.cursor()
-    try:
-        cur.execute("INSERT INTO saveddata (diseases_name, treatments, userID) VALUES (%s, %s, %s)", (prediction, treatment, userID))
-        mysql.connection.commit()
-        print("Prediction, treatment, and user ID saved to the database")
-    except Exception as e:
-        print("Error saving prediction, treatment, and user ID to the database:", e)
-        mysql.connection.rollback()
-    finally:
-        cur.close()
-    
-    return jsonify({'message': 'Data saved successfully'})
+@app.route('/download-pdf/<path:filename>', methods=['GET'])
+def download_pdf(filename):
+    return send_file(filename, as_attachment=True)
 
 if __name__ == '__main__':
+    if not os.path.exists('uploads'):
+        os.makedirs('uploads')
+    if not os.path.exists('reports'):
+        os.makedirs('reports')
     app.run(debug=True)
-
-
-# @app.route('/download-pdf/<path:filename>', methods=['GET'])
-# def download_pdf(filename):
-#     return send_file(filename, as_attachment=True)
-
-# if __name__ == '__main__':
-#     if not os.path.exists('uploads'):
-#         os.makedirs('uploads')
-#     if not os.path.exists('reports'):
-#         os.makedirs('reports')
-#     app.run(debug=True)

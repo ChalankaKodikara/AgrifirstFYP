@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "./ImageUpload.css";
-import Loader from "./loder/Loder";
 
 const ImageUpload = () => {
   const [file, setFile] = useState(null);
@@ -15,15 +14,19 @@ const ImageUpload = () => {
   const saveResults = async (data) => {
     try {
       const token = localStorage.getItem("token");
-      const userId = getUserIdFromCookie();
-
-      await fetch("http://localhost:5001/save-results", {
+      const userId = localStorage.getItem("userId");
+      console.log("UserID:", userId);
+      await fetch("http://localhost:5000/save-results", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ prediction: data.prediction, treatment: data.treatment, userId }),
+        body: JSON.stringify({
+          prediction: data.prediction,
+          treatment: data.treatment,
+          userId,
+        }),
       });
     } catch (error) {
       console.error("Error:", error);
@@ -31,7 +34,12 @@ const ImageUpload = () => {
   };
 
   const getUserIdFromCookie = () => {
-    const userCookie = JSON.parse(document.cookie.split('; ').find(row => row.startsWith('user=')).split('=')[1]);
+    const userCookie = JSON.parse(
+      document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("user="))
+        .split("=")[1]
+    );
     return userCookie.id;
   };
 
@@ -40,14 +48,16 @@ const ImageUpload = () => {
 
     const formData = new FormData();
     formData.append("file", file);
-
+    // Append userId to the FormData object
+    const userId = localStorage.getItem("userId");
+    formData.append("userId", userId);
     try {
       const response = await fetch("http://localhost:5000/predict", {
         method: "POST",
         body: formData,
         headers: {
-          "Authorization": `Bearer ${localStorage.getItem("token")}`
-        }
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
       });
       const data = await response.json();
       setPrediction(data.prediction);
@@ -59,7 +69,6 @@ const ImageUpload = () => {
       console.error("Error:", error);
     }
   };
-
   return (
     <div>
       <div className="heroSection">

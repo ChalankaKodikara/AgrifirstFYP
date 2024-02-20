@@ -122,29 +122,6 @@ router.post("/login", async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
-// Route to save prediction and treatment results
-router.post("/save-results", authenticateToken, async (req, res) => {
-  const { prediction, treatment } = req.body;
-  const userId = req.userId;
-
-  try {
-    const connection = await mysql.createConnection(dbConfig);
-
-    try {
-      const [result] = await connection.execute(
-        "INSERT INTO prediction_results (prediction, treatment, user_id) VALUES (?, ?, ?)",
-        [prediction, treatment, userId]
-      );
-
-      res.status(201).json({ message: "Results saved successfully" });
-    } finally {
-      await connection.end();
-    }
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal server error" });
-  }
-});
 
 
 

@@ -1,179 +1,63 @@
-import React, { useEffect, useState, useRef } from "react";
-import { axiosInstance } from "../../axios.config";
-import CountUp, { useCountUp } from "react-countup";
-import ApexChart1 from "./ApexChart1";
-import ApexChart2 from "./ApexChart2";
-import ApexBarChart from "./ApexBarChart";
-import PieChart from "./PieChart";
-import { GiCorn } from "react-icons/gi";
-const defaultMaps = [
-  {
-    _id: "MH",
-    numberOfValue: 24,
-  },
-  {
-    _id: "GJ",
-    numberOfValue: 46,
-  },
-  {
-    _id: "TN",
-    numberOfValue: 44,
-  },
-  {
-    _id: "KA",
-    numberOfValue: 120,
-  },
-  {
-    _id: "PB",
-    numberOfValue: 10,
-  },
-  {
-    _id: "TS",
-    numberOfValue: 80,
-  },
-  {
-    _id: "WB",
-    numberOfValue: 60,
-  },
-  {
-    _id: "OD",
-    numberOfValue: 35,
-  },
-];
-
-const defaultPlants = {
-  legends: [
-    "Corn",
-    "Tomato",
-    "Potato",
-    "Carrot",
-    "Bell peper",
-    "Strawberry",
-    "Pairs",
-  ],
-  data: [2, 5, 4, 1, 7, 1, 4],
+import React from "react";
+import SingleCard from "../charts/SingleCard";
+import CarStatsChart from "../charts/CarStatsChart";
+import RecommendCarCard from "../UI/RecommendCarCard.jsx"
+// import RecommendCarCard from "../components/UI/RecommendCarCard";
+import recommendCarsData from "../dummy-data/carStatics.js";
+import MileChart from "../charts/MileChart";
+const carObj = {
+  title: "Total Vehicls Per Day",
+  totalNumber: 3000,
+  icon: "ri-police-car-line",
 };
 
-const defaultDisease = {
-  legends: [
-    "Apple Black rot",
-    "Apple scab",
-    "Potato Early blight",
-    "Grape Black rot",
-    "Tomato Septoria leaf spot",
-    "Tomato Target Spot",
-    "Corn Common rust",
-    "Strawberry Leaf scorch",
-    "Pepper_bell Bacterial spot",
-  ],
-  data: [2, 2, 4, 1, 4, 1, 2, 1, 7],
+const tripObj = {
+  title: "Register Parking",
+  totalNumber: 50,
+  icon: "ri-steering-2-line",
 };
 
-function Dashboard() {
-  const [mapData, setMapData] = useState(defaultMaps);
-  const [plantData, setPlantData] = useState(defaultPlants);
-  const [diseaseData, setDiseaseData] = useState(defaultDisease);
+const clientObj = {
+  title: "Users",
+  totalNumber: "85k",
+  icon: "ri-user-line",
+};
 
-  useEffect(() => {
-    let componentMounted = true;
+const distanceObj = {
+  title: "Totall Slots",
+  totalNumber: 1000,
+  icon: "ri-timer-flash-line",
+};
 
-    const getData = async () => {
-      const res = await axiosInstance.get("/dashboard");
-      const data = res.data;
-      if (!data) return;
-
-      componentMounted && setMapData(data.mapData);
-
-      componentMounted && setDiseaseData(data.diseaseData);
-      componentMounted && setPlantData(data.plantData);
-    };
-
-    getData();
-
-    return () => {
-      componentMounted = false;
-    };
-  }, []);
-
+const Dashboard = () => {
   return (
-    <div>
-      <h2 className="text-5xl font-semibold text-center my-5">Dashboard</h2>
-
-      <div className="rounded-xl m-2 shado shadow-slate-900w-xl p-4 flex items-stretch justify-evenly gap-2">
-        <div className="flex flex-col p-4 rounded-xl bg-gradient-to-r from-green-700 to-emerald-300 text-white shadow-xl shadow-slate-300">
-          <p className="text-center flex justify-center">
-            <span className="text-6xl font-bold font-mono my-auto">
-              <CountUp end={527} />
-            </span>
-          </p>
-          <p className="text-center">
-            <span className="text text-3xl font-mono"> Total Visitors</span>
-          </p>
-        </div>
-        <div className="flex flex-col p-4 rounded-xl bg-gradient-to-r from-sky-700 to-slate-600 text-white shadow-xl shadow-slate-300">
-          <p className="text-center flex justify-center">
-            <span className="text-6xl font-bold font-mono my-auto">
-              <CountUp end={261} />
-            </span>
-          </p>
-          <p className="text-center">
-            <span className="text text-3xl font-mono">Total Predictions</span>
-          </p>
-        </div>
-        <div className="flex flex-col p-4 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-400 text-white shadow-xl shadow-slate-300">
-          <p className="text-center flex justify-center">
-            <span className="text-5xl font-bold font-mono my-auto">
-              <GiCorn className="inline" /> Carrot
-            </span>
-          </p>
-          <p className="text-center">
-            <span className="text text-3xl font-mono">
-              Plant With most <br /> Diseases Today
-            </span>
-          </p>
-        </div>
-        <div className="flex flex-col p-4 rounded-xl bg-gradient-to-r from-red-700 to-pink-400 text-white shadow-xl shadow-slate-300">
-          <p className="text-center flex justify-center">
-            <span className="text-6xl font-bold font-mono my-auto">
-              <CountUp end={17} />
-            </span>
-          </p>
-          <p className="text-center">
-            <span className="text text-3xl font-mono">
-              Predictions done <br /> Today
-            </span>
-          </p>
-        </div>
-
-        <div></div>
+    <div style={{ marginTop: "100px", padding: "0px 30px", paddingBottom: "50px" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", columnGap: "2rem" }}>
+        <SingleCard item={carObj} />
+        <SingleCard item={tripObj} />
+        <SingleCard item={clientObj} />
+        <SingleCard item={distanceObj} />
       </div>
-      <div className="grid grid-rows-2 grid-flow-col">
-        <div className="row-span-2 col-span-12 rounded-xl m-2 shadow-xl grid grid-cols-12 grid-flow-row gap-8">
-          <div className=" rounded-xl shadow-xl shadow-slate-300 col-span-6">
-            <h1 className="text-center p-6">Plant Affected by Diseases</h1>
-            <ApexBarChart />
-          </div>
-          <div className=" rounded-xl shadow-xl shadow-slate-300 col-span-6">
-            <h1 className="text-center p-6">Disease Detection by Month</h1>
-            <ApexChart1 />
-          </div>
-          <div className=" rounded-xl shadow-xl shadow-slate-300 row-span-2 col-span-4">
-            <h1 className="text-center p-6">
-              Distribution of Prediction over plants
-            </h1>
-            <PieChart />
-          </div>
-          <div className=" rounded-xl shadow-xl shadow-slate-300 row-span-2 col-span-4">
-            <h1 className="text-center p-6">Disease Detection by Day</h1>
-            <ApexChart2 />
-          </div>
-          {/* <div className=" rounded-xl shadow-xl shadow-slate-300 row-span-2 col-span-4 ">
-            <h1 className="text-center p-6">Disease per province </h1>
-          </div> */}
+
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", columnGap: "2rem", marginTop: "2rem" }}>
+        <div style={{ background: "var(--primary-color)", padding: "30px", borderRadius: "5px", height: "320px", paddingBottom: "50px" }}>
+          <h3 style={{ color: "#fff", fontSize: "1.2rem", fontWeight: "500", marginBottom: "20px" }}>User Statistics</h3>
+          {/* <MileChart /> */}
+          <MileChart/>
         </div>
+        <div style={{ background: "var(--primary-color)", padding: "30px", borderRadius: "5px", height: "320px", paddingBottom: "50px" }}>
+          <h3 style={{ color: "#fff", fontSize: "1.2rem", fontWeight: "500", marginBottom: "20px" }}>Parking Statistics</h3>
+          <CarStatsChart />
+        </div>
+      </div>
+
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", marginTop: "2rem", columnGap: "2rem" }}>
+        {recommendCarsData.map((item) => (
+          <RecommendCarCard item={item} key={item.id} />
+        ))}
       </div>
     </div>
   );
-}
+};
 
 export default Dashboard;

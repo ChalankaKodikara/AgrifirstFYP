@@ -4,13 +4,13 @@ import { Route, Routes } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { login } from './store/features/userSlice';
 import Home from './components/Home/Home';
-import Dashboard from './components/Dashboard/Dashboard';
+// import Dashboard from './components/Dashboard/Dashboard';
 import Auth from './components/Auth/Auth';
 import Footer from './components/Footer/Footer';
 import Forum from './components/DiseaseDetection/Forum';
 import LoadingBar from 'react-top-loading-bar';
 import './components/i18n/i18n';
-import UserProfile from './components/profile/UserProfile';
+import Dashboard from './components/Dashboard/Dashboard';
 
 function App() {
   const dispatch = useDispatch();
@@ -40,11 +40,9 @@ function App() {
         <div className="col p-0 m-0 w-full">
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/forum" element={<Forum />} />
-            <Route path="/UserProfile" element={<UserProfile />} />
-
+            <Route path="/dashbord" element={<Dashboard/>} />
           </Routes>
         </div>
       </div>

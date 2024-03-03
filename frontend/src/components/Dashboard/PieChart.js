@@ -1,66 +1,62 @@
 import React from "react";
-import Chart from "react-apexcharts";
+import SingleCard from "../components/reuseable/SingleCard";
+import MileChart from "../charts/MileChart";
+import CarStatsChart from "../charts/CarStatsChart";
+import RecommendCarCard from "../components/UI/RecommendCarCard";
+import recommendCarsData from "../assets/dummy-data/recommendCars";
 
-class PieChart extends React.Component {
-  constructor(props) {
-    super(props);
+const carObj = {
+  title: "Total Vehicls Per Day",
+  totalNumber: 3000,
+  icon: "ri-police-car-line",
+};
 
-    this.state = {
-      series: [14, 23, 21, 17, 15, 10, 12],
-      options: {
-        labels: [
-          "Corn",
-          "Tomato",
-          "Potatoes",
-          "Cabbage",
-          "Pumpking",
-          "Tumip",
-          "Sweet potatoes",
-        ],
-        plotOptions: {
-          pie: {
-            donut: {
-              size: "70%",
-            },
-          },
-        },
-        chart: {
-          type: "donut",
-          foreColor: "#000",
-        },
-        stroke: {
-          width: 5,
-          colors: ["#fff"],
-        },
-        innerRadius: "2%",
-        responsive: [
-          {
-            breakpoint: 480,
-            options: {
-              chart: {
-                width: 200,
-              },
-              legend: {
-                position: "bottom",
-              },
-            },
-          },
-        ],
-      },
-    };
-  }
+const tripObj = {
+  title: "Register Parking",
+  totalNumber: 50,
+  icon: "ri-steering-2-line",
+};
 
-  render() {
-    return (
-      <div id="chart" className="w-full">
-        <Chart
-          options={this.state.options}
-          series={this.state.series}
-          type="donut"
-        />
+const clientObj = {
+  title: "Users",
+  totalNumber: "85k",
+  icon: "ri-user-line",
+};
+
+const distanceObj = {
+  title: "Totall Slots",
+  totalNumber: 1000,
+  icon: "ri-timer-flash-line",
+};
+
+const Dashboard = () => {
+  return (
+    <div style={{ marginTop: "100px", padding: "0px 30px", paddingBottom: "50px" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", columnGap: "2rem" }}>
+        <SingleCard item={carObj} />
+        <SingleCard item={tripObj} />
+        <SingleCard item={clientObj} />
+        <SingleCard item={distanceObj} />
       </div>
-    );
-  }
-}
 
-export default PieChart;
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", columnGap: "2rem", marginTop: "2rem" }}>
+        <div style={{ background: "var(--primary-color)", padding: "30px", borderRadius: "5px", height: "320px", paddingBottom: "50px" }}>
+          <h3 style={{ color: "#fff", fontSize: "1.2rem", fontWeight: "500", marginBottom: "20px" }}>User Statistics</h3>
+          <MileChart />
+        </div>
+        <div style={{ background: "var(--primary-color)", padding: "30px", borderRadius: "5px", height: "320px", paddingBottom: "50px" }}>
+          <h3 style={{ color: "#fff", fontSize: "1.2rem", fontWeight: "500", marginBottom: "20px" }}>Parking Statistics</h3>
+          <CarStatsChart />
+        </div>
+      </div>
+
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", marginTop: "2rem", columnGap: "2rem" }}>
+        {recommendCarsData.map((item) => (
+          <RecommendCarCard item={item} key={item.id} />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default Dashboard;

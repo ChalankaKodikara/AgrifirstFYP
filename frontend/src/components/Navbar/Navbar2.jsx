@@ -32,6 +32,13 @@ function Navbar() {
                     Diseases Detection
                   </Link>
                   <Link
+                    to="/dashbord"
+                    className="text-black hover:text-gray-400 px-3 py-2 font-medium text-md"
+                    aria-current="page"
+                  >
+                    Dashbord{" "}
+                  </Link>
+                  <Link
                     to="/UserProfile"
                     className="text-black hover:text-gray-400 px-3 py-2 font-medium text-md"
                     aria-current="page"

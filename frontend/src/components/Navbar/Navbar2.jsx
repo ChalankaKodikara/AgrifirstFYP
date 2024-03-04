@@ -1,6 +1,7 @@
 import { Disclosure } from "@headlessui/react";
 import { Link } from "react-router-dom";
 import leaf from "../../assets/images/sprout.png";
+import profileImg from "../../assets/images/profile-02.png";
 
 function Navbar() {
   return (
@@ -39,20 +40,36 @@ function Navbar() {
                     Dashbord{" "}
                   </Link>
                   <Link
-                    to="/UserProfile"
-                    className="text-black hover:text-gray-400 px-3 py-2 font-medium text-md"
-                    aria-current="page"
-                  >
-                    Profile
-                  </Link>
-
-                  <Link
                     to="/"
                     className="text-black hover:text-gray-400 px-3 py-2 font-medium text-md"
                     aria-current="page"
                   >
                     Sign Out
                   </Link>
+                  <div
+                    style={{
+                      width: "40px",
+                      height: "40px",
+                      borderRadius: "50%",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "flex-end",
+                      overflow: "hidden", // Added overflow property to handle object-fit
+                    }}
+                  >
+                    <Link to="/settings">
+                      
+                      <img
+                        src={profileImg}
+                        alt=""
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          objectFit: "cover",
+                        }}
+                      />
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>

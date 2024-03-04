@@ -1,0 +1,131 @@
+
+:root {
+  --primary-color: #ffffff;
+  --secondary-color: #01d293;
+  --body-bg: #ffffff;
+  --card-01-bg: linear-gradient(#ef621c, #e1424e);
+  --card-02-bg: linear-gradient(#01d293, #56c57a);
+  --card-03-bg: #725cff;
+  --card-04-bg: #2884ff;
+  --heading-color: #000000;
+  --small-text-color: #000000;
+  --recommend-car01-bg: #e1dfa4;
+  --recommend-car02-bg: #e3ecf1;
+  --recommend-car03-bg: #f4e3e5;
+
+  
+}.settings {
+  padding: 0px 30px;
+  padding-bottom: 50px;
+  font-family: "DM Sans", sans-serif;
+  background: var(--body-bg);
+}
+
+.settings__wrapper {
+  padding: 20px;
+  border-radius: 5px;
+  background: var(--primary-color);
+}
+
+.settings__title {
+  color: var(--heading-color);
+  font-weight: 500;
+  margin-bottom: 2rem;
+}
+
+.settings__top {
+  display: flex;
+  align-items: center;
+  column-gap: 2.7rem;
+  margin-bottom: 1.5rem;
+}
+
+.setting__btn {
+  border: none;
+  border: none;
+  padding: 7px 25px;
+  background: transparent;
+  border-radius: 5px;
+  color: var(--heading-color);
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.active__btn {
+  background: #b7ffe913;
+}
+
+.profile__title {
+  color: var(--heading-color);
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+.profile__desc {
+  color: var(--small-text-color);
+  margin-bottom: 2rem;
+}
+
+label {
+  color: var(--heading-color);
+  margin-bottom: 5px;
+  font-size: 0.9rem;
+}
+
+.form__group div {
+  display: flex;
+  flex-direction: column;
+  width: 47%;
+}
+
+.form__group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  column-gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.form__group div input {
+  width: 100%;
+  padding: 12px 20px;
+  border-radius: 5px;
+  background: transparent;
+  border: 1px solid #00000013;
+  color: var(--heading-color);
+  font-size: 1rem;
+}
+
+.form__group div input::placeholder {
+  color: var(--small-text-color);
+  font-size: 0.9rem;
+}
+
+.form__group div input:focus {
+  outline: none;
+}
+
+.profile-img__desc {
+  color: var(--small-text-color);
+  margin-bottom: 10px;
+}
+
+.profile__img-btns {
+  display: flex;
+  flex-direction: row !important;
+  column-gap: 2.7rem;
+}
+
+.dlt__btn,
+.update__btn {
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #000000;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.update__btn {
+  color: var(--secondary-color);
+}

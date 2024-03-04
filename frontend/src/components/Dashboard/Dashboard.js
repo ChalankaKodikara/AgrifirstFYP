@@ -5,6 +5,7 @@ import RecommendCarCard from "../UI/RecommendCarCard.jsx"
 // import RecommendCarCard from "../components/UI/RecommendCarCard";
 import recommendCarsData from "../dummy-data/carStatics.js";
 import MileChart from "../charts/MileChart";
+import Navbar from "../Navbar/Navbar2.jsx";
 const carObj = {
   title: "Total Vehicls Per Day",
   totalNumber: 3000,
@@ -31,6 +32,8 @@ const distanceObj = {
 
 const Dashboard = () => {
   return (
+    <div>
+      <Navbar/>
     <div style={{ marginTop: "100px", padding: "0px 30px", paddingBottom: "50px" }}>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", columnGap: "2rem" }}>
         <SingleCard item={carObj} />
@@ -56,7 +59,7 @@ const Dashboard = () => {
           <RecommendCarCard item={item} key={item.id} />
         ))}
       </div>
-    </div>
+    </div></div>
   );
 };
 

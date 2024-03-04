@@ -11,6 +11,7 @@ import Forum from './components/DiseaseDetection/Forum';
 import LoadingBar from 'react-top-loading-bar';
 import './components/i18n/i18n';
 import Dashboard from './components/Dashboard/Dashboard';
+import Settings from './components/DiseaseDetection/Settings.jsx';
 
 function App() {
   const dispatch = useDispatch();
@@ -43,6 +44,8 @@ function App() {
             <Route path="/auth" element={<Auth />} />
             <Route path="/forum" element={<Forum />} />
             <Route path="/dashbord" element={<Dashboard/>} />
+            <Route path="/settings" element={<Settings />} />
+
           </Routes>
         </div>
       </div>

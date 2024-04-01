@@ -52,7 +52,14 @@ router.post("/register", registrationValidation, async (req, res) => {
       // Insert user data into the database
       const [result] = await connection.execute(
         "INSERT INTO users (firstName, lastName, username, phone, password, type) VALUES (?, ?, ?, ?, ?, ?)",
-        [firstName, lastName, username, phone, hashedPassword.substring(0, 60), type]
+        [
+          firstName,
+          lastName,
+          username,
+          phone,
+          hashedPassword.substring(0, 60),
+          type,
+        ]
       );
 
       // Create a user object
@@ -66,12 +73,18 @@ router.post("/register", registrationValidation, async (req, res) => {
       };
 
       // Set the cookie with user ID and username upon registration
-      res.cookie('user', JSON.stringify({ id: user.id, username: user.username }), { httpOnly: true });
+      res.cookie(
+        "user",
+        JSON.stringify({ id: user.id, username: user.username }),
+        { httpOnly: true }
+      );
 
       // Send registration success response
       res.status(201).json({ user, message: "Registration successful" });
 
-      console.log(`User registered successfully: ${user.username}, ID: ${user.id}`);
+      console.log(
+        `User registered successfully: ${user.username}, ID: ${user.id}`
+      );
     } finally {
       // Close database connection
       await connection.end();
@@ -87,15 +100,20 @@ router.post("/login", async (req, res) => {
   const { username, password } = req.body;
 
   if (!username || !password) {
-    return res.status(400).json({ error: "Username and password are required" });
+    return res
+      .status(400)
+      .json({ error: "Username and password are required" });
   }
 
   try {
     // Connect to the database
     const connection = await mysql.createConnection(dbConfig);
-    
+
     // Query user data from the database
-    const [rows] = await connection.execute("SELECT * FROM users WHERE username = ?", [username]);
+    const [rows] = await connection.execute(
+      "SELECT * FROM users WHERE username = ?",
+      [username]
+    );
     await connection.end();
 
     if (rows.length === 0) {
@@ -118,7 +136,11 @@ router.post("/login", async (req, res) => {
     );
 
     // Set the cookie with user ID and username upon login
-    res.cookie('user', JSON.stringify({ id: user.id, username: user.username }), { httpOnly: true });
+    res.cookie(
+      "user",
+      JSON.stringify({ id: user.id, username: user.username }),
+      { httpOnly: true }
+    );
 
     // Send login success response
     res.json({
@@ -137,13 +159,42 @@ router.get("/user_predictions", authenticateToken, async (req, res) => {
   try {
     // Connect to the database
     const connection = await mysql.createConnection(dbConfig);
-    
+
     // Query user predictions based on user ID
-    const [rows] = await connection.execute("SELECT * FROM user_predictions WHERE user_id = ?", [req.userId]);
+    const [rows] = await connection.execute(
+      "SELECT * FROM user_predictions WHERE user_id = ?",
+      [req.userId]
+    );
     await connection.end();
 
     // Send user predictions as JSON response
     res.status(200).json(rows);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+// Route to fetch user IDs and first names
+router.get("/users", async (req, res) => {
+  console.log("Hello Hello");
+  try {
+    // Connect to the database
+    const connection = await mysql.createConnection(dbConfig);
+
+    // Query user IDs and first names from the users table
+    const [rows] = await connection.execute("SELECT id, firstname FROM users");
+    await connection.end();
+
+    // Construct the JSON response array
+    const usersArray = rows.map(({ id, firstname }) => ({
+      _id: id,
+      firstname:firstname,
+    }));
+    console.log(express.response);
+    // Send the JSON response
+    res.status(200).json(usersArray);
+    console.log("Response: ", usersArray);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal server error" });

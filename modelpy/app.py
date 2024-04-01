@@ -51,7 +51,6 @@ def generate_pdf(report_headline, prediction, treatment):
 
     return pdf_path
 
-# Route to handle image classification and treatment retrieval and generate PDF
 @app.route('/predict', methods=['POST'])
 def predict_and_generate_pdf():
     if 'file' not in request.files:
@@ -61,9 +60,11 @@ def predict_and_generate_pdf():
     if file.filename == '':
         return jsonify({'prediction': "No file selected"})
 
-    # Extract user ID from request
+    # Extract user ID and location from request
     user_id = request.form.get('userId')
+    location = request.form.get('location')  # Get location from the request
     print("User ID:", user_id)
+    print("Location:", location)
 
     # Generate a unique filename for each uploaded file
     filename = secrets.token_hex(8) + '.jpg'
@@ -89,9 +90,9 @@ def predict_and_generate_pdf():
     # Generate the PDF report
     pdf_path = generate_pdf(report_headline, prediction, treatment)
 
-    # Save prediction and user ID to the database
+    # Save prediction, user ID, and location to the database
     cur = mysql.connection.cursor()
-    cur.execute("INSERT INTO user_predictions (user_id, prediction, treatment, file_path) VALUES (%s, %s, %s, %s)", (user_id, prediction, treatment, file_path))
+    cur.execute("INSERT INTO user_predictions (user_id, prediction, treatment, file_path, location) VALUES (%s, %s, %s, %s, %s)", (user_id, prediction, treatment, file_path, location))
     mysql.connection.commit()
     cur.close()
 

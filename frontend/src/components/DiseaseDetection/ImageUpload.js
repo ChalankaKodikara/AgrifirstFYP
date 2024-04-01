@@ -11,12 +11,13 @@ const ImageUpload = () => {
     setFile(selectedFile);
   };
 
-  const saveResults = async (data) => {
+  const saveResults = async (data, location) => {
     try {
       const token = localStorage.getItem("token");
       const userId = localStorage.getItem("userId");
       console.log("UserID:", userId);
-      await fetch("http://localhost:5000/save-results", {
+
+      await fetch("http://localhost:5000/predict", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -26,6 +27,7 @@ const ImageUpload = () => {
           prediction: data.prediction,
           treatment: data.treatment,
           userId,
+          location,
         }),
       });
     } catch (error) {
@@ -33,42 +35,61 @@ const ImageUpload = () => {
     }
   };
 
-  const getUserIdFromCookie = () => {
-    const userCookie = JSON.parse(
-      document.cookie
-        .split("; ")
-        .find((row) => row.startsWith("user="))
-        .split("=")[1]
-    );
-    return userCookie.id;
-  };
-
   const handleUpload = async () => {
     if (!file) return;
-
+  
     const formData = new FormData();
     formData.append("file", file);
+  
     // Append userId to the FormData object
     const userId = localStorage.getItem("userId");
     formData.append("userId", userId);
+  
     try {
-      const response = await fetch("http://localhost:5000/predict", {
-        method: "POST",
-        body: formData,
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
-      const data = await response.json();
-      setPrediction(data.prediction);
-      setTreatment(data.treatment);
-
-      // Save results to the backend
-      await saveResults(data);
+      // Get browser's geolocation
+      if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(
+          async (position) => {
+            // Include location data in form
+            formData.append(
+              "location",
+              JSON.stringify({
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude,
+              })
+            );
+  
+            const response = await fetch("http://localhost:5000/predict", {
+              method: "POST",
+              body: formData,
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            });
+            const data = await response.json();
+            setPrediction(data.prediction);
+            setTreatment(data.treatment);
+  
+            // Save results
+            await saveResults(data, {
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+            });
+          },
+          (error) => {
+            console.error("Error getting geolocation:", error.message);
+          }
+        );
+      } else {
+        console.error("Geolocation is not supported by this browser.");
+      }
     } catch (error) {
       console.error("Error:", error);
     }
   };
+  
+  
+
   return (
     <div>
       <div className="heroSection">

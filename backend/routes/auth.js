@@ -177,7 +177,6 @@ router.get("/user_predictions", authenticateToken, async (req, res) => {
 
 // Route to fetch user IDs and first names
 router.get("/users", async (req, res) => {
-  console.log("Hello Hello");
   try {
     // Connect to the database
     const connection = await mysql.createConnection(dbConfig);
@@ -191,14 +190,58 @@ router.get("/users", async (req, res) => {
       _id: id,
       firstname:firstname,
     }));
-    console.log(express.response);
     // Send the JSON response
     res.status(200).json(usersArray);
-    console.log("Response: ", usersArray);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal server error" });
   }
 });
+
+router.get("/user_predictions", authenticateToken, async (req, res) => {
+  try {
+    // Get user ID from query parameters
+    const userId = req.query.user_Id; // Use user_Id instead of userId
+
+    // Check if user ID is provided
+    if (!userId) {
+      return res.status(400).json({ error: "User ID is required" });
+    }
+
+    // Connect to the database
+    const connection = await mysql.createConnection(dbConfig);
+
+    // Query user predictions based on user ID
+    const [rows] = await connection.execute(
+      "SELECT * FROM user_predictions WHERE user_id = ?",
+      [userId]
+    );
+    await connection.end();
+
+    // Create an array to store prediction data
+    const predictionsArray = [];
+
+    // Iterate through the rows and extract relevant data
+    rows.forEach(row => {
+      const predictionData = {
+        id: row.id,
+        prediction: row.prediction,
+        treatment: row.treatment,
+        file_path: row.file_path,
+        created_at: row.created_at,
+        location: row.location
+      };
+      predictionsArray.push(predictionData);
+    });
+
+    // Send prediction data as JSON response
+    res.status(200).json(predictionsArray);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+
 
 module.exports = router;

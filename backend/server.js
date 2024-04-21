@@ -14,6 +14,7 @@ app.use(express.json());
 // Use the auth route
 app.use("/api/auth", apiRoutes);
 
+
 const PORT = process.env.PORT || config.server.port;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

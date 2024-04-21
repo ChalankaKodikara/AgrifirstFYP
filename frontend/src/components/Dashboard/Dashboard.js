@@ -15,41 +15,61 @@ const Dashboard = () => {
     // Add more data as needed
   ];
 
-  const [carObj, setCarObj] = useState({
-    title: "Total registered users",
-    totalNumber: 0,
-    icon: "ri-police-car-line",
-  });
+  const [userCount, setUserCount] = useState(0);
+  const [diseaseCount, setDiseaseCount] = useState(0);
+  const [predictionCount, setPredictionCount] = useState(0); // New state for prediction count
 
-  const tripObj = {
-    title: "Total Diseaseses ",
-    totalNumber: 50,
-    icon: "ri-steering-2-line",
-  };
 
-  const clientObj = {
-    title: "Users",
-    totalNumber: "85k",
-    icon: "ri-user-line",
-  };
-
-  const distanceObj = {
-    title: "Totall Predictions",
-    totalNumber: 1000,
-    icon: "ri-timer-flash-line",
-  };
   useEffect(() => {
-    // Fetch user count from the backend API
-    fetch('http://localhost:5001/api/auth/users') // Update the API endpoint accordingly
+    // Retrieve the token from local storage or secure cookie
+    const token = localStorage.getItem('authToken');
+
+    if (!token) {
+      console.error('Token not found.');
+      return;
+    }
+
+    const headers = {
+      'Authorization': `Bearer ${token}`,
+      // Add other headers if necessary
+    };
+
+    // Fetch user count
+    fetch('http://localhost:5001/api/auth/user_details', {
+      method: 'GET',
+      headers: headers,
+    })
       .then(response => response.json())
       .then(data => {
-        setCarObj(prevState => ({
-          ...prevState,
-          totalNumber: data.userCount // Assuming the response contains a property 'userCount' with the total user count
-        }));
+        setUserCount(data.length);
       })
       .catch(error => console.error('Error fetching user count:', error));
-  }, []); // Run this effect only once on component mount
+
+    // Fetch disease count
+    fetch('http://localhost:5001/api/auth/diseases', {
+      method: 'GET',
+      headers: headers,
+    })
+      .then(response => response.json())
+      .then(data => {
+        setDiseaseCount(data.length);
+      })
+      .catch(error => console.error('Error fetching disease count:', error));
+
+
+
+// Fetch prediction count
+    fetch('http://localhost:5001/api/auth/user_predictions', {
+      method: 'GET',
+      headers: headers,
+    })
+      .then(response => response.json())
+      .then(data => {
+        setPredictionCount(data.length);
+      })
+      .catch(error => console.error('Error fetching prediction count:', error));
+  }, []);
+
 
 
   return (
@@ -69,10 +89,34 @@ const Dashboard = () => {
             columnGap: "2rem",
           }}
         >
-          <SingleCard item={carObj} />
-          <SingleCard item={tripObj} />
-          <SingleCard item={clientObj} />
-          <SingleCard item={distanceObj} />
+          <SingleCard
+            item={{
+              title: "Total registered users",
+              totalNumber: userCount,
+              icon: "ri-police-car-line",
+            }}
+          />
+          <SingleCard
+            item={{
+              title: "Total Diseaseses ",
+              totalNumber: diseaseCount,
+              icon: "ri-steering-2-line",
+            }}
+          />
+          <SingleCard
+            item={{
+              title: "Users",
+              totalNumber: userCount, 
+              icon: "ri-user-line",
+            }}
+          />
+          <SingleCard
+            item={{
+              title: "Totall Predictions",
+              totalNumber: predictionCount, 
+              icon: "ri-timer-flash-line",
+            }}
+          />
         </div>
 
         <div
@@ -102,7 +146,6 @@ const Dashboard = () => {
             >
               User Statistics
             </h3>
-            {/* <MileChart /> */}
             <MileChart />
           </div>
           <div

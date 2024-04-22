@@ -9,7 +9,7 @@ const RecommendCarCard = (props) => {
           <span>
             <i class="ri-refresh-line"></i>
           </span>
-          {percentage}% Recommended
+          {percentage} percentage % 
         </h5>
       </div>
 
@@ -22,7 +22,7 @@ const RecommendCarCard = (props) => {
           <div className="recommend__icons">
             <p>
               <i class="ri-repeat-line"></i>
-              {retweet}k
+              {retweet}
             </p>
             <p>
               <i class="ri-settings-2-line"></i>

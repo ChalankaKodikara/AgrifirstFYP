@@ -8,8 +8,8 @@ const mileChart = () => {
   return (
     <ResponsiveContainer width="100%">
       <BarChart data={mileStaticsData}>
-        <XAxis dataKey="name" stroke="#2884ff" />
-        <Bar dataKey="mileStats" stroke="#2884ff" fill="#2884ff" barSize={30} />
+        <XAxis dataKey="name" stroke="#013220" />
+        <Bar dataKey="mileStats" stroke="#013220" fill="#013220" barSize={30} />
 
         <Tooltip wrapperClassName="tooltip__style" cursor={false} />
       </BarChart>

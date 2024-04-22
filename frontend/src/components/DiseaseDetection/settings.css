@@ -1,17 +1,17 @@
 
 :root {
   --primary-color: #ffffff;
-  --secondary-color: #01d293;
+  --secondary-color: #F8B324;
   --body-bg: #ffffff;
-  --card-01-bg: linear-gradient(#ef621c, #e1424e);
-  --card-02-bg: linear-gradient(#01d293, #56c57a);
-  --card-03-bg: #725cff;
-  --card-04-bg: #2884ff;
+  --card-01-bg: linear-gradient(#344E41, #344E41);
+  --card-02-bg: linear-gradient(#588157, #588157);
+  --card-03-bg: #A3B18A;
+  --card-04-bg: #bab7b0;
   --heading-color: #000000;
   --small-text-color: #000000;
-  --recommend-car01-bg: #e1dfa4;
-  --recommend-car02-bg: #e3ecf1;
-  --recommend-car03-bg: #f4e3e5;
+  --recommend-car01-bg: #344E41;
+  --recommend-car02-bg: #588157;
+  --recommend-car03-bg: #5A9F68;
 
   
 }.settings {

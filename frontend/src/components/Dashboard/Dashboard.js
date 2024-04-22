@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import SingleCard from "../charts/SingleCard";
-import CarStatsChart from "../charts/CarStatsChart";
+import PredictionChart from "../charts/PredictionChart";
 import RecommendCarCard from "../UI/RecommendCarCard.jsx";
 import MileChart from "../charts/MileChart";
 import Navbar from "../Navbar/Navbar2.jsx";
@@ -19,58 +19,55 @@ const Dashboard = () => {
   const [diseaseCount, setDiseaseCount] = useState(0);
   const [predictionCount, setPredictionCount] = useState(0); // New state for prediction count
 
-
   useEffect(() => {
     // Retrieve the token from local storage or secure cookie
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem("authToken");
 
     if (!token) {
-      console.error('Token not found.');
+      console.error("Token not found.");
       return;
     }
 
     const headers = {
-      'Authorization': `Bearer ${token}`,
+      Authorization: `Bearer ${token}`,
       // Add other headers if necessary
     };
 
     // Fetch user count
-    fetch('http://localhost:5001/api/auth/user_details', {
-      method: 'GET',
+    fetch("http://localhost:5001/api/auth/user_details", {
+      method: "GET",
       headers: headers,
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         setUserCount(data.length);
       })
-      .catch(error => console.error('Error fetching user count:', error));
+      .catch((error) => console.error("Error fetching user count:", error));
 
     // Fetch disease count
-    fetch('http://localhost:5001/api/auth/diseases', {
-      method: 'GET',
+    fetch("http://localhost:5001/api/auth/diseases", {
+      method: "GET",
       headers: headers,
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         setDiseaseCount(data.length);
       })
-      .catch(error => console.error('Error fetching disease count:', error));
+      .catch((error) => console.error("Error fetching disease count:", error));
 
-
-
-// Fetch prediction count
-    fetch('http://localhost:5001/api/auth/user_predictions', {
-      method: 'GET',
+    // Fetch prediction count
+    fetch("http://localhost:5001/api/auth/user_predictions", {
+      method: "GET",
       headers: headers,
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         setPredictionCount(data.length);
       })
-      .catch(error => console.error('Error fetching prediction count:', error));
+      .catch((error) =>
+        console.error("Error fetching prediction count:", error)
+      );
   }, []);
-
-
 
   return (
     <div>
@@ -102,18 +99,20 @@ const Dashboard = () => {
               totalNumber: diseaseCount,
               icon: "ri-steering-2-line",
             }}
+            style={{ color: "#fff" }} // Set the font color to white
           />
+
           <SingleCard
             item={{
               title: "Users",
-              totalNumber: userCount, 
+              totalNumber: userCount,
               icon: "ri-user-line",
             }}
           />
           <SingleCard
             item={{
               title: "Totall Predictions",
-              totalNumber: predictionCount, 
+              totalNumber: predictionCount,
               icon: "ri-timer-flash-line",
             }}
           />
@@ -138,7 +137,7 @@ const Dashboard = () => {
           >
             <h3
               style={{
-                color: "#fff",
+                color: "#344E41",
                 fontSize: "1.2rem",
                 fontWeight: "500",
                 marginBottom: "20px",
@@ -159,15 +158,15 @@ const Dashboard = () => {
           >
             <h3
               style={{
-                color: "#fff",
+                color: "#344E41",
                 fontSize: "1.2rem",
                 fontWeight: "500",
                 marginBottom: "20px",
               }}
             >
-              Parking Statistics
+              Prediction Statistics
             </h3>
-            <CarStatsChart />
+            <PredictionChart />
           </div>
         </div>
 

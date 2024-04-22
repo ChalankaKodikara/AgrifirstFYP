@@ -1,7 +1,7 @@
 import React from "react";
 import SingleCard from "../components/reuseable/SingleCard";
 import MileChart from "../charts/MileChart";
-import CarStatsChart from "../charts/CarStatsChart";
+import PredictionChart from "../charts/PredictionChart";
 import RecommendCarCard from "../components/UI/RecommendCarCard";
 import recommendCarsData from "../assets/dummy-data/recommendCars";
 
@@ -46,7 +46,7 @@ const Dashboard = () => {
         </div>
         <div style={{ background: "var(--primary-color)", padding: "30px", borderRadius: "5px", height: "320px", paddingBottom: "50px" }}>
           <h3 style={{ color: "#fff", fontSize: "1.2rem", fontWeight: "500", marginBottom: "20px" }}>Parking Statistics</h3>
-          <CarStatsChart />
+          <PredictionChart />
         </div>
       </div>
 

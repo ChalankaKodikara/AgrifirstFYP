@@ -1,4 +1,4 @@
-// frontend/src/components/CarStatsChart.js
+// frontend/src/components/PredictionChart.js
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import {
@@ -11,7 +11,7 @@ import {
   Area,
 } from "recharts";
 
-const CarStatsChart = () => {
+const PredictionChart = () => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -47,4 +47,4 @@ const CarStatsChart = () => {
   );
 };
 
-export default CarStatsChart;
+export default PredictionChart;

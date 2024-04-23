@@ -22,7 +22,7 @@
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
-    "apexcharts": "^3.42.0",
+    "apexcharts": "^3.49.0",
     "axios": "^0.26.1",
     "capacitor": "^0.5.5",
     "d3-scale": "^4.0.2",

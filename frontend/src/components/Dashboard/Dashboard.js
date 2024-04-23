@@ -18,6 +18,7 @@ const Dashboard = () => {
   const [userCount, setUserCount] = useState(0);
   const [diseaseCount, setDiseaseCount] = useState(0);
   const [predictionCount, setPredictionCount] = useState(0); // New state for prediction count
+  const [userRegistrationData, setUserRegistrationData] = useState([]);
 
   useEffect(() => {
     // Retrieve the token from local storage or secure cookie
@@ -68,6 +69,47 @@ const Dashboard = () => {
         console.error("Error fetching prediction count:", error)
       );
   }, []);
+
+
+  // // Fetch user registration data and calculate user count by day
+  // useEffect(() => {
+  //   // Retrieve the token from local storage or secure cookie
+  //   const token = localStorage.getItem("authToken");
+
+  //   if (!token) {
+  //     console.error("Token not found.");
+  //     return;
+  //   }
+
+  //   const headers = {
+  //     Authorization: `Bearer ${token}`,
+  //     // Add other headers if necessary
+  //   };
+
+  //   fetch("http://localhost:5001/api/auth/user_details", {
+  //     method: "GET",
+  //     headers: headers,
+  //   })
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       setUserRegistrationData(data);
+
+  //       // Calculate user count for each day
+  //       const userCountsByDay = {};
+  //       data.forEach(user => {
+  //         const date = new Date(user.created_at).toISOString().split('T')[0];
+  //         userCountsByDay[date] = (userCountsByDay[date] || 0) + 1;
+  //       });
+        
+  //       // Log user count for each day
+  //       // console.log("User Count for Each Day:", userCountsByDay);
+  //     })
+  //     .catch((error) =>
+  //       console.error("Error fetching user registration data:", error)
+  //     );
+  // }, []);
+
+
 
   return (
     <div>
@@ -145,7 +187,11 @@ const Dashboard = () => {
             >
               User Statistics
             </h3>
-            <MileChart />
+            <div
+             style={{
+              marginBottom: "10px",
+            }}>            <MileChart />
+</div>
           </div>
           <div
             style={{
@@ -174,7 +220,7 @@ const Dashboard = () => {
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(3, 1fr)",
-            marginTop: "2rem",
+            marginTop: "200px",
             columnGap: "2rem",
           }}
         >

@@ -31,7 +31,6 @@ const authenticateToken = (req, res, next) => {
   });
 };
 
-// Registration route
 router.post("/register", registrationValidation, async (req, res) => {
   try {
     // Validate registration inputs
@@ -51,7 +50,7 @@ router.post("/register", registrationValidation, async (req, res) => {
     try {
       // Insert user data into the database
       const [result] = await connection.execute(
-        "INSERT INTO users (firstName, lastName, username, phone, password, type) VALUES (?, ?, ?, ?, ?, ?)",
+        "INSERT INTO users (firstName, lastName, username, phone, password, type, created_at) VALUES (?, ?, ?, ?, ?, ?, CURRENT_DATE)",
         [
           firstName,
           lastName,
@@ -94,6 +93,7 @@ router.post("/register", registrationValidation, async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
+
 
 // Login route
 router.post("/login", async (req, res) => {
@@ -212,7 +212,7 @@ router.get("/user_details", authenticateToken, async (req, res) => {
 
     // Query user details based on user ID
     const [rows] = await connection.execute(
-      "SELECT id, firstname, lastname, username, type FROM users "
+      "SELECT id, firstname, lastname, username,created_at, type FROM users "
     );
     await connection.end();
 

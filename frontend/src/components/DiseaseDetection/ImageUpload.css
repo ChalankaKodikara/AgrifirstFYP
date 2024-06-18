@@ -131,6 +131,8 @@ header .logo {
   display: flex;
   color: #fff;
   font-size: 15px;
+  margin-left: 43.5%;
+  margin-top: 50px;
 }
 
 .buttonrg:hover {
